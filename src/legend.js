@@ -125,7 +125,7 @@ c3_chart_internal_fn.updateLegend = function (targetIds, options, transitions) {
     });
 
     options = options || {};
-    withTransition = getOption(options, "withTransition", true);
+    withTransition = getOption(options, "withTransition", false);
     withTransitionForTransform = getOption(options, "withTransitionForTransform", true);
 
     function getTextBox(textElement, id) {

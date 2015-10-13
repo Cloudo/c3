@@ -9,6 +9,7 @@ c3_chart_internal_fn.initPie = function () {
 };
 
 c3_chart_internal_fn.updateRadius = function () {
+    if (!this.config) { return; } // chart is destroyed
     var $$ = this, config = $$.config,
         w = config.gauge_width || config.donut_width;
     $$.radiusExpanded = Math.min($$.arcWidth, $$.arcHeight) / 2;
@@ -25,6 +26,7 @@ c3_chart_internal_fn.updateArc = function () {
 };
 
 c3_chart_internal_fn.updateAngle = function (d) {
+    if (!this.config) { return; } // chart is destroyed
     var $$ = this, config = $$.config,
         found = false, index = 0,
         gMin = config.gauge_min, gMax = config.gauge_max, gTic, gValue;

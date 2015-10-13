@@ -477,7 +477,7 @@
         options = options || {};
         withY = getOption(options, "withY", true);
         withSubchart = getOption(options, "withSubchart", true);
-        withTransition = getOption(options, "withTransition", true);
+        withTransition = getOption(options, "withTransition", false);
         withTransform = getOption(options, "withTransform", false);
         withUpdateXDomain = getOption(options, "withUpdateXDomain", false);
         withUpdateOrgXDomain = getOption(options, "withUpdateOrgXDomain", false);
@@ -4068,7 +4068,7 @@
         });
 
         options = options || {};
-        withTransition = getOption(options, "withTransition", true);
+        withTransition = getOption(options, "withTransition", false);
         withTransitionForTransform = getOption(options, "withTransitionForTransform", true);
 
         function getTextBox(textElement, id) {
@@ -4766,6 +4766,7 @@
     };
 
     c3_chart_internal_fn.updateRadius = function () {
+        if (!this.config) { return; } // chart is destroyed
         var $$ = this, config = $$.config,
             w = config.gauge_width || config.donut_width;
         $$.radiusExpanded = Math.min($$.arcWidth, $$.arcHeight) / 2;
@@ -4782,6 +4783,7 @@
     };
 
     c3_chart_internal_fn.updateAngle = function (d) {
+        if (!this.config) { return; } // chart is destroyed
         var $$ = this, config = $$.config,
             found = false, index = 0,
             gMin = config.gauge_min, gMax = config.gauge_max, gTic, gValue;
