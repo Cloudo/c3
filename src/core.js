@@ -643,7 +643,7 @@ c3_chart_internal_fn.redraw = function (options, transitions) {
         });
     }
 
-    if ((duration || flow) && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
+    if (duration && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
         // transition should be derived from one transition
         d3.transition().duration(duration).each(function () {
             var transitionsToWait = [];

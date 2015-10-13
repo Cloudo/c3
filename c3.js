@@ -648,7 +648,7 @@
             });
         }
 
-        if ((duration || flow) && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
+        if (duration && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
             // transition should be derived from one transition
             d3.transition().duration(duration).each(function () {
                 var transitionsToWait = [];
@@ -5087,6 +5087,9 @@
             .each(function () { $$.transiting = true; })
             .transition().duration(duration)
             .attrTween("d", function (d) {
+                if ($$.config === null) {
+                    return;
+                }
                 var updated = $$.updateAngle(d), interpolate;
                 if (! updated) {
                     return function () { return "M 0 0"; };
@@ -5108,6 +5111,9 @@
                 return function (t) {
                     var interpolated = interpolate(t);
                     interpolated.data = d.data; // data.id will be updated by interporator
+                    if ($$.config === null) {
+                        return;
+                    }
                     return $$.getArc(interpolated, true);
                 };
             })
