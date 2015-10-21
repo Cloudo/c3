@@ -473,6 +473,7 @@
         var waitForDraw, flow;
         var targetsToShow = $$.filterTargetsToShow($$.data.targets), tickValues, i, intervalForCulling, xDomainForZoom;
         var xv = $$.xv.bind($$), cx, cy;
+        var allTransitionsEnabled;
 
         options = options || {};
         withY = getOption(options, "withY", true);
@@ -488,6 +489,7 @@
         withDimension = getOption(options, "withDimension", true);
         withTransitionForExit = getOption(options, "withTransitionForExit", withTransition);
         withTransitionForAxis = getOption(options, "withTransitionForAxis", withTransition);
+        allTransitionsEnabled = getOption(options, "transitions", false);
 
         duration = withTransition ? config.transition_duration : 0;
         durationForExit = withTransitionForExit ? duration : 0;
@@ -632,7 +634,8 @@
         cx = ($$.config.axis_rotated ? $$.circleY : $$.circleX).bind($$);
         cy = ($$.config.axis_rotated ? $$.circleX : $$.circleY).bind($$);
 
-        if (options.flow) {
+
+        if (allTransitionsEnabled && options.flow) {
             flow = $$.generateFlow({
                 targets: targetsToShow,
                 flow: options.flow,
@@ -648,7 +651,7 @@
             });
         }
 
-        if (duration && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
+        if (allTransitionsEnabled && duration && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
             // transition should be derived from one transition
             d3.transition().duration(duration).each(function () {
                 var transitionsToWait = [];
@@ -1087,6 +1090,7 @@
             onresized: function () {},
             oninit: function () {},
             onrendered: function () {},
+            transitions: false,
             transition_duration: 350,
             data_x: undefined,
             data_xs: {},

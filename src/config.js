@@ -24,6 +24,7 @@ c3_chart_internal_fn.getDefaultConfig = function () {
         onresized: function () {},
         oninit: function () {},
         onrendered: function () {},
+        transitions: false,
         transition_duration: 350,
         data_x: undefined,
         data_xs: {},
