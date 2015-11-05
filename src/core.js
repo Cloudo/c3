@@ -630,7 +630,7 @@ c3_chart_internal_fn.redraw = function (options, transitions) {
     cy = ($$.config.axis_rotated ? $$.circleX : $$.circleY).bind($$);
 
 
-    if (allTransitionsEnabled && options.flow) {
+    if (options.flow) {
         flow = $$.generateFlow({
             targets: targetsToShow,
             flow: options.flow,
@@ -646,7 +646,7 @@ c3_chart_internal_fn.redraw = function (options, transitions) {
         });
     }
 
-    if (allTransitionsEnabled && duration && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
+    if ((duration || flow) && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
         // transition should be derived from one transition
         d3.transition().duration(duration).each(function () {
             var transitionsToWait = [];
@@ -1002,6 +1002,7 @@ c3_chart_internal_fn.endall = function (transition, callback) {
         });
 };
 c3_chart_internal_fn.generateWait = function () {
+    var $$ = this;
     var transitionsToWait = [],
         f = function (transition, callback) {
             var timer = setInterval(function () {
@@ -1019,7 +1020,7 @@ c3_chart_internal_fn.generateWait = function () {
                 });
                 if (done === transitionsToWait.length) {
                     clearInterval(timer);
-                    if (callback) { callback(); }
+                    if (callback && $$.config) { callback(); }
                 }
             }, 10);
         };

@@ -102,11 +102,21 @@ c3_chart_internal_fn.cloneTarget = function (target) {
 };
 c3_chart_internal_fn.updateXs = function () {
     var $$ = this;
+    var firstIndex = 0;
     if ($$.data.targets.length) {
         $$.xs = [];
         $$.data.targets[0].values.forEach(function (v) {
             $$.xs[v.index] = v.x;
         });
+
+        if ($$.data.targets[0].values.length) {
+            firstIndex = $$.data.targets[0].values[0].index;
+            if (firstIndex > 1) {
+                Object.keys($$.data.xs).forEach(function(k) {
+                    $$.data.xs[k][firstIndex - 2] = null;
+                });
+            }
+        };
     }
 };
 c3_chart_internal_fn.getPrevX = function (i) {

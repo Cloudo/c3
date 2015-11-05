@@ -635,7 +635,7 @@
         cy = ($$.config.axis_rotated ? $$.circleX : $$.circleY).bind($$);
 
 
-        if (allTransitionsEnabled && options.flow) {
+        if (options.flow) {
             flow = $$.generateFlow({
                 targets: targetsToShow,
                 flow: options.flow,
@@ -651,7 +651,7 @@
             });
         }
 
-        if (allTransitionsEnabled && duration && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
+        if ((duration || flow) && $$.isTabVisible()) { // Only use transition if tab visible. See #938.
             // transition should be derived from one transition
             d3.transition().duration(duration).each(function () {
                 var transitionsToWait = [];
@@ -1007,6 +1007,7 @@
             });
     };
     c3_chart_internal_fn.generateWait = function () {
+        var $$ = this;
         var transitionsToWait = [],
             f = function (transition, callback) {
                 var timer = setInterval(function () {
@@ -1024,7 +1025,7 @@
                     });
                     if (done === transitionsToWait.length) {
                         clearInterval(timer);
-                        if (callback) { callback(); }
+                        if (callback && $$.config) { callback(); }
                     }
                 }, 10);
             };
@@ -1750,11 +1751,21 @@
     };
     c3_chart_internal_fn.updateXs = function () {
         var $$ = this;
+        var firstIndex = 0;
         if ($$.data.targets.length) {
             $$.xs = [];
             $$.data.targets[0].values.forEach(function (v) {
                 $$.xs[v.index] = v.x;
             });
+
+            if ($$.data.targets[0].values.length) {
+                firstIndex = $$.data.targets[0].values[0].index;
+                if (firstIndex > 1) {
+                    Object.keys($$.data.xs).forEach(function(k) {
+                        $$.data.xs[k][firstIndex - 2] = null;
+                    });
+                }
+            };
         }
     };
     c3_chart_internal_fn.getPrevX = function (i) {
