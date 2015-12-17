@@ -70,6 +70,7 @@ c3_chart_internal_fn.unload = function (targetIds, done) {
     }
     $$.svg.selectAll(targetIds.map(function (id) { return $$.selectorTarget(id); }))
         .transition()
+        .duration(0)
         .style('opacity', 0)
         .remove()
         .call($$.endall, done);

@@ -32,7 +32,7 @@ c3_chart_fn.load = function (args) {
         return;
     }
     // unload if needed
-    if ('unload' in args) {
+    if ('unload' in args && args.unload === true) {
         // TODO: do not unload if target will load (included in url/rows/columns)
         $$.unload($$.mapToTargetIds((typeof args.unload === 'boolean' && args.unload) ? null : args.unload), function () {
             $$.loadFromArgs(args);

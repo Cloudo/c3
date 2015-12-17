@@ -116,7 +116,7 @@ c3_chart_internal_fn.updateXs = function () {
                     $$.data.xs[k][firstIndex - 2] = null;
                 });
             }
-        };
+        }
     }
 };
 c3_chart_internal_fn.getPrevX = function (i) {

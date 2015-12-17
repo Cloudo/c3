@@ -1765,7 +1765,7 @@
                         $$.data.xs[k][firstIndex - 2] = null;
                     });
                 }
-            };
+            }
         }
     };
     c3_chart_internal_fn.getPrevX = function (i) {
@@ -2297,6 +2297,7 @@
         }
         $$.svg.selectAll(targetIds.map(function (id) { return $$.selectorTarget(id); }))
             .transition()
+            .duration(0)
             .style('opacity', 0)
             .remove()
             .call($$.endall, done);
@@ -6256,7 +6257,7 @@
             return;
         }
         // unload if needed
-        if ('unload' in args) {
+        if ('unload' in args && args.unload === true) {
             // TODO: do not unload if target will load (included in url/rows/columns)
             $$.unload($$.mapToTargetIds((typeof args.unload === 'boolean' && args.unload) ? null : args.unload), function () {
                 $$.loadFromArgs(args);
